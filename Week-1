@@ -1,0 +1,44 @@
+# python basic quiz game
+
+
+Questions = [
+    "Which of the following are valid variable names in Python?: ",
+    "Which of the following are mutable data types in Python?: ",
+    "Which statements about Python functions are true?: ",
+    "Which of the following are valid ways to open and read a file in Python?: ",
+    "What are the advantages of using Python?: "
+]
+
+Options = [
+    ["A._var_name", "B.1_variable", "C.myVar", "D.myVar"],
+    ["A. Lists", "B. Tuples", "C. Sets", "D. Dictionaries"],
+    ["A. Functions can return multiple values using tuples", "B.Functions in Python are first-class objects", "C.A function in Python can be defined inside another function", "D.Python functions cannot have default arguments"],
+    ["A.open('file.txt', 'r')", "B.with open('file.txt', 'r') as file: content = file.read()", "C.file.open('file.txt', 'r')", "D.open('file.txt', 'w')"],
+    ["A.Readability", "B.Extensive libraries and frameworks", "C.Cross-platform compatibility", "D.Strongly typed variables"]
+]
+
+Answers = ["A,C", "A,C,D", "A,B,C", "A,B", "A,B,C"]
+
+Feedback = []
+Score = 0
+
+for Question_num, Question in enumerate(Questions):
+    print("---------------------------------------")
+    print(Question)
+    for Option in Options[Question_num]:
+        print(Option)
+    Guess = input("Enter (A, B, C, D): ").upper()
+    Feedback.append(Guess)
+    if Guess == Answers[Question_num]:
+        Score += 1
+        print("Correct!")
+    else:
+        print("Incorrect!")
+        print(f"Correct answer(s): {Answers[Question_num]}")
+    print("---------------------------------------")
+
+print("--------------- Result -----------------")
+print("Answers:", ' '.join(Answers))
+print("Feedback:", ' '.join(Feedback))
+final_Score = (Score / len(Questions)) * 100
+print(f"Your Score is: {final_Score}%")

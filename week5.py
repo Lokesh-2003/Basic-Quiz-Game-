@@ -67,7 +67,7 @@ class Game2048GUI(tk.Tk):
     def handle_key_press(self, event):
         pass
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     game = Game2048()
     gui = Game2048GUI(game)
     gui.mainloop()

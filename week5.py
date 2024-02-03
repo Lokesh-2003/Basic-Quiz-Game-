@@ -1,5 +1,7 @@
 import random
 import tkinter as tk
+import matplotlib
+matplotlib.use("Agg")  
 
 class Game2048:
     def __init__(self):
@@ -44,7 +46,7 @@ class Game2048:
         compressed_row = [val for val in row if val != 0] + [0] * row.count(0)
         return compressed_row
 
-    def rotate_board(self, direction, , board=None):
+    def rotate_board(self, direction, board=None):
         if board is None:
             board = self.board.copy()
         if direction == 'right':
@@ -65,7 +67,7 @@ class Game2048:
 
 class Game2048GUI(tk.Tk):
     def __init__(self, game):
-        super()._init_()
+        super().__init__()
         self.game = game
         self.title("2048 Game")
         self.geometry("400x400")
@@ -73,16 +75,40 @@ class Game2048GUI(tk.Tk):
         self.create_widgets()
 
     def create_widgets(self):
-        pass
+        self.score_label = tk.Label(self, text="Score: 0", font=("Helvetica", 16))
+        self.score_label.pack(pady=10)
+
+        self.board_frame = tk.Frame(self)
+        self.board_frame.pack()
+
+        self.board_labels = [[tk.Label(self.board_frame, text="", width=5, height=2, font=("Helvetica", 16), borderwidth=2, relief="solid") for _ in range(self.game.board_size)] for _ in range(self.game.board_size)]
+
+        for i in range(self.game.board_size):
+            for j in range(self.game.board_size):
+                self.board_labels[i][j].grid(row=i, column=j, padx=5, pady=5)
+
+        self.update_board()
 
     def update_board(self):
-        pass
+        for i in range(self.game.board_size):
+            for j in range(self.game.board_size):
+                value = self.game.board[i][j]
+                text = str(value) if value != 0 else ""
+                self.board_labels[i][j].configure(text=text, bg=self.get_tile_color(value))
+
+        self.score_label.configure(text=f"Score: {self.game.score}")
 
     def handle_key_press(self, event):
         key_mapping = {'Left': 'left', 'Right': 'right', 'Up': 'up', 'Down': 'down'}
         direction = key_mapping.get(event.keysym)
         if direction:
             self.game.move(direction)
+            self.update_board()
+
+    def get_tile_color(self, value):
+        colors = {0: "lightgray", 2: "lightblue", 4: "lightgreen", 8: "lightyellow", 16: "lightorange", 32: "lightred",
+                  64: "lightpink", 128: "lightcyan", 256: "lightmagenta", 512: "lightbrown", 1024: "lightpurple", 2048: "lightgold"}
+        return colors.get(value, "white")
 
 
 if __name__ == "__main__":
